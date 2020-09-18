@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BeerAppAndroid</string>
+    <string name="name">Nombre</string>
 </resources>
