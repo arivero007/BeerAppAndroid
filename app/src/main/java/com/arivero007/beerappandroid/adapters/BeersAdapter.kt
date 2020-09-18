@@ -12,8 +12,9 @@ import kotlinx.android.synthetic.main.beer_recyclerview.view.*
 class BeersAdapter(private val beers: List<Beer>): RecyclerView.Adapter<BeersAdapter.BeersHolder>() {
 
     var beerHolder: BeersHolder? = null
+    var filteredItems = beers
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BeersAdapter.BeersHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BeersHolder {
 
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.beer_recyclerview, parent, false)
         beerHolder = BeersHolder(view)
@@ -21,12 +22,15 @@ class BeersAdapter(private val beers: List<Beer>): RecyclerView.Adapter<BeersAda
         return beerHolder!!
     }
 
-    override fun onBindViewHolder(holder: BeersAdapter.BeersHolder, position: Int) {
-        TODO("Not yet implemented")
+    override fun onBindViewHolder(holder: BeersHolder, position: Int) {
+
+        val beer = beers[position]
+
+        holder.name?.text = beer.name
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return beers.count()
     }
 
     class BeersHolder(view: View): RecyclerView.ViewHolder(view){
@@ -37,6 +41,5 @@ class BeersAdapter(private val beers: List<Beer>): RecyclerView.Adapter<BeersAda
             name = view.beer_name
         }
     }
-
 
 }
