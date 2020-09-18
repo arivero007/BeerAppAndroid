@@ -2,8 +2,7 @@ package com.arivero007.beerappandroid.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.viewModels
+import android.view.Menu
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +33,7 @@ class BeersListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         beersModel = ViewModelProvider(this).get(BeersListViewModel::class.java)
         downloadListOfBeers()
@@ -84,5 +84,16 @@ class BeersListActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         recyclerView.setItemViewCacheSize(20);
         recyclerView.adapter = viewAdapter
+    }
+
+    //Menu
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+
+        val item = menu?.findItem(R.id.search_item)
+        val search = item?.actionView
+
+        return super.onCreateOptionsMenu(menu)
     }
 }
