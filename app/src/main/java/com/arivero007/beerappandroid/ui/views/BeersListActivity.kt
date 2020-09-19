@@ -4,17 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.add
 import com.arivero007.beerappandroid.R
-import com.arivero007.beerappandroid.adapters.BeersAdapter
 import com.arivero007.beerappandroid.ui.models.BeersListViewModel
 import com.arivero007.beerappandroid.utils.webservice.Beer
 import com.arivero007.beerappandroid.utils.webservice.RetrofitBuilder
-import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,33 +20,26 @@ class BeersListActivity : AppCompatActivity() {
 
     private val TAG = "BeerListActivity: "
 
-    private var beersModel: BeersListViewModel? = null
+    private val beersModel: BeersListViewModel by viewModels()
     private lateinit var beers: List<Beer>
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: BeersAdapter
-    private lateinit var viewManager: RecyclerView.LayoutManager
-
+    private lateinit var fragmentManager: FragmentManager
+    private lateinit var beerListFragment: BeersListFragment
+    private lateinit var beerFragment: BeerFragment
 
     //LifeCycle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        beersModel = ViewModelProvider(this).get(BeersListViewModel::class.java)
+        fragmentManager = supportFragmentManager
+        beerListFragment = BeersListFragment()
+        beerFragment = BeerFragment()
+
+        fragmentManager.beginTransaction().add(R.id.main_layout, beerListFragment).commit()
         downloadListOfBeers()
 
-    }
 
-    override fun onResume() {
-        super.onResume()
-
-        //Listen for model
-        beersModel!!.getBeers().observe(this, Observer<List<Beer>>{
-            if (it != null){
-                beers = it
-            }
-        })
     }
 
     //REST
@@ -63,7 +53,7 @@ class BeersListActivity : AppCompatActivity() {
                     if (res != null){
                         beers = res
                         beersModel?.setBeers(beers)
-                        setUpRecyclerView()
+                        fragmentManager.fragments[0].onResume()
                     }
                 }
 
@@ -72,17 +62,6 @@ class BeersListActivity : AppCompatActivity() {
                 }
 
             })
-    }
-
-    //RecyclerView
-    fun setUpRecyclerView(){
-        recyclerView = beers_view
-        viewManager = LinearLayoutManager(this)
-        viewAdapter = BeersAdapter(this, beers)
-        recyclerView.layoutManager = viewManager
-        recyclerView.setHasFixedSize(true)
-        recyclerView.setItemViewCacheSize(20);
-        recyclerView.adapter = viewAdapter
     }
 
     //Menu
@@ -98,7 +77,7 @@ class BeersListActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewAdapter.filter.filter(newText)
+                fragmentManager.fragments[0]
                 return false
             }
 
@@ -124,4 +103,5 @@ class BeersListActivity : AppCompatActivity() {
             }
         }
     }
+
 }
