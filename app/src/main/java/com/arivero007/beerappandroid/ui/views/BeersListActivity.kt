@@ -1,4 +1,4 @@
-package com.arivero007.beerappandroid.ui
+package com.arivero007.beerappandroid.ui.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arivero007.beerappandroid.R
 import com.arivero007.beerappandroid.adapters.BeersAdapter
+import com.arivero007.beerappandroid.ui.models.BeersListViewModel
 import com.arivero007.beerappandroid.utils.webservice.Beer
 import com.arivero007.beerappandroid.utils.webservice.RetrofitBuilder
 import kotlinx.android.synthetic.main.activity_main.*

@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.arivero007.beerappandroid.R
-import com.arivero007.beerappandroid.ui.BeerActivity
+import com.arivero007.beerappandroid.ui.views.BeerActivity
 import com.arivero007.beerappandroid.utils.webservice.Beer
 import kotlinx.android.synthetic.main.beer_recyclerview.view.*
 

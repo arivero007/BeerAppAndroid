@@ -1,4 +1,4 @@
-package com.arivero007.beerappandroid.ui
+package com.arivero007.beerappandroid.ui.models
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

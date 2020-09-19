@@ -1,4 +1,4 @@
-package com.arivero007.beerappandroid.ui
+package com.arivero007.beerappandroid.ui.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
