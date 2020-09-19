@@ -9,4 +9,10 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView">
     </item>
 
+    <item android:id="@+id/refresh_item"
+        android:title="Refresh"
+        android:icon="@drawable/ic_refresh"
+        app:showAsAction="always">
+    </item>
+
 </menu>

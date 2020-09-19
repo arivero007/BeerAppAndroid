@@ -11,7 +11,8 @@ import com.arivero007.beerappandroid.R
 import com.arivero007.beerappandroid.utils.webservice.Beer
 import kotlinx.android.synthetic.main.beer_recyclerview.view.*
 
-class BeersAdapter(private val beers: List<Beer>): RecyclerView.Adapter<BeersAdapter.BeersHolder>(), Filterable{
+class BeersAdapter(private val beers: List<Beer>): RecyclerView.Adapter<BeersAdapter.BeersHolder>(),
+    Filterable {
 
     var beerHolder: BeersHolder? = null
     var filteredItems = beers
@@ -35,15 +36,6 @@ class BeersAdapter(private val beers: List<Beer>): RecyclerView.Adapter<BeersAda
         return filteredItems.count()
     }
 
-    class BeersHolder(view: View): RecyclerView.ViewHolder(view){
-
-        var name: TextView? = null
-
-        init {
-            name = view.beer_name
-        }
-    }
-
     override fun getFilter(): Filter {
         return object: Filter(){
             override fun performFiltering(text: CharSequence?): FilterResults {
@@ -55,7 +47,7 @@ class BeersAdapter(private val beers: List<Beer>): RecyclerView.Adapter<BeersAda
                     val temp = ArrayList<Beer>()
 
                     for (item in beers){
-                        if (item.name.contains(text.toString())){
+                        if (item.name.toLowerCase().contains(text.toString())){
                             temp.add(item)
                         }
                     }
@@ -72,6 +64,15 @@ class BeersAdapter(private val beers: List<Beer>): RecyclerView.Adapter<BeersAda
                 notifyDataSetChanged()
             }
 
+        }
+    }
+
+    class BeersHolder(view: View): RecyclerView.ViewHolder(view){
+
+        var name: TextView? = null
+
+        init {
+            name = view.beer_name
         }
     }
 
