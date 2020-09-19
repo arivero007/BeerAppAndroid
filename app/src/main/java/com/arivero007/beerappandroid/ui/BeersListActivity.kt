@@ -31,7 +31,6 @@ class BeersListActivity : AppCompatActivity() {
 
 
     //LifeCycle
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -55,8 +54,7 @@ class BeersListActivity : AppCompatActivity() {
     //REST
     fun downloadListOfBeers(){
 
-        val retrofit = RetrofitBuilder()
-
+        val retrofit = RetrofitBuilder
         retrofit.apiService.getListOfBeers().enqueue(
             object: Callback<List<Beer>>{
                 override fun onResponse(call: Call<List<Beer>>, response: Response<List<Beer>>) {
@@ -79,7 +77,7 @@ class BeersListActivity : AppCompatActivity() {
     fun setUpRecyclerView(){
         recyclerView = beers_view
         viewManager = LinearLayoutManager(this)
-        viewAdapter = BeersAdapter(beers)
+        viewAdapter = BeersAdapter(this, beers)
         recyclerView.layoutManager = viewManager
         recyclerView.setHasFixedSize(true)
         recyclerView.setItemViewCacheSize(20);

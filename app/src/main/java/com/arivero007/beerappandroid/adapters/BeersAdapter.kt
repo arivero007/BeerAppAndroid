@@ -1,17 +1,21 @@
 package com.arivero007.beerappandroid.adapters
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.arivero007.beerappandroid.R
+import com.arivero007.beerappandroid.ui.BeerActivity
 import com.arivero007.beerappandroid.utils.webservice.Beer
 import kotlinx.android.synthetic.main.beer_recyclerview.view.*
 
-class BeersAdapter(private val beers: List<Beer>): RecyclerView.Adapter<BeersAdapter.BeersHolder>(),
+class BeersAdapter(private val context: Context, private val beers: List<Beer>): RecyclerView.Adapter<BeersAdapter.BeersHolder>(),
     Filterable {
 
     var beerHolder: BeersHolder? = null
@@ -30,6 +34,12 @@ class BeersAdapter(private val beers: List<Beer>): RecyclerView.Adapter<BeersAda
         val beer = filteredItems[position]
 
         holder.name?.text = beer.name
+        holder.beer.setOnClickListener {
+
+            val intent = Intent( context, BeerActivity::class.java)
+            intent.putExtra("beer", beer)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -69,10 +79,12 @@ class BeersAdapter(private val beers: List<Beer>): RecyclerView.Adapter<BeersAda
 
     class BeersHolder(view: View): RecyclerView.ViewHolder(view){
 
-        var name: TextView? = null
+        var name: TextView
+        var beer: ConstraintLayout
 
         init {
             name = view.beer_name
+            beer = view.beer_item
         }
     }
 
