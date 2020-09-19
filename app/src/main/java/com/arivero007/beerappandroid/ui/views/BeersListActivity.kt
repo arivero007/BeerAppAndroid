@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arivero007.beerappandroid.R
 import com.arivero007.beerappandroid.adapters.BeersAdapter
 import com.arivero007.beerappandroid.ui.models.BeersListViewModel
+import com.arivero007.beerappandroid.utils.LoadingDialog
 import com.arivero007.beerappandroid.utils.webservice.Beer
 import com.arivero007.beerappandroid.utils.webservice.RetrofitBuilder
 import kotlinx.android.synthetic.main.activity_main.*
@@ -44,6 +45,7 @@ class BeersListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+        LoadingDialog.getInstance(this).dismissLoadingDialog()
         //Listen for model
         beersModel!!.getBeers().observe(this, Observer<List<Beer>>{
             if (it != null){
@@ -78,7 +80,7 @@ class BeersListActivity : AppCompatActivity() {
     fun setUpRecyclerView(){
         recyclerView = beers_view
         viewManager = LinearLayoutManager(this)
-        viewAdapter = BeersAdapter(this, beers)
+        viewAdapter = BeersAdapter(LoadingDialog.getInstance(this),this, beers)
         recyclerView.layoutManager = viewManager
         recyclerView.setHasFixedSize(true)
         recyclerView.setItemViewCacheSize(20);

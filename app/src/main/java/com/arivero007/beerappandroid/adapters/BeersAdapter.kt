@@ -1,5 +1,6 @@
 package com.arivero007.beerappandroid.adapters
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -12,10 +13,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.arivero007.beerappandroid.R
 import com.arivero007.beerappandroid.ui.views.BeerActivity
+import com.arivero007.beerappandroid.utils.LoadingDialog
 import com.arivero007.beerappandroid.utils.webservice.Beer
 import kotlinx.android.synthetic.main.beer_recyclerview.view.*
 
-class BeersAdapter(private val context: Context, private val beers: List<Beer>): RecyclerView.Adapter<BeersAdapter.BeersHolder>(),
+class BeersAdapter(private val hud: LoadingDialog, private val context: Context, private val beers: List<Beer>): RecyclerView.Adapter<BeersAdapter.BeersHolder>(),
     Filterable {
 
     var beerHolder: BeersHolder? = null
@@ -36,7 +38,9 @@ class BeersAdapter(private val context: Context, private val beers: List<Beer>):
         holder.name?.text = beer.name
         holder.beer.setOnClickListener {
 
+            hud.startLoadingDialog()
             val intent = Intent( context, BeerActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             intent.putExtra("beer", beer)
             context.startActivity(intent)
         }
