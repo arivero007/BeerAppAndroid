@@ -2,6 +2,8 @@ package com.arivero007.beerappandroid.ui.views
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -23,8 +25,14 @@ class BeersListFragment : Fragment() {
     private lateinit var viewAdapter: BeersAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private lateinit var activity: AppCompatActivity
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val toolbar = list_toolbar
+        activity = requireActivity() as AppCompatActivity
+        activity.setSupportActionBar(toolbar)
 
     }
 
@@ -44,6 +52,7 @@ class BeersListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_beers_list, container, false)
     }
 
@@ -60,6 +69,46 @@ class BeersListFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.setItemViewCacheSize(20);
         recyclerView.adapter = viewAdapter
+    }
+
+    //Menu
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+
+        val item = menu.findItem(R.id.search_item)
+        val search = item?.actionView as SearchView
+
+        search.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    updateList(newText)
+                }
+                return false
+            }
+        })
+        return super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        val id = item.itemId
+
+        when(id){
+            R.id.search_item -> {
+                return true
+            }
+            R.id.refresh_item ->{
+                (requireActivity() as BeersListActivity).downloadListOfBeers()
+                return true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+        }
     }
 
 }

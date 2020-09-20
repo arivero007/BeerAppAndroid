@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.add
 import com.arivero007.beerappandroid.R
 import com.arivero007.beerappandroid.ui.models.BeersListViewModel
@@ -40,7 +41,6 @@ class BeersListActivity : AppCompatActivity() {
         fragmentManager.beginTransaction().add(R.id.fragment_container, beerListFragment).commit()
 
         downloadListOfBeers()
-
     }
 
     fun showBeerFragment(){
@@ -57,7 +57,7 @@ class BeersListActivity : AppCompatActivity() {
 
         val retrofit = RetrofitBuilder
         retrofit.apiService.getListOfBeers().enqueue(
-            object: Callback<List<Beer>>{
+            object: Callback<List<Beer>> {
                 override fun onResponse(call: Call<List<Beer>>, response: Response<List<Beer>>) {
                     val res = response.body()
                     if (res != null){
@@ -72,48 +72,6 @@ class BeersListActivity : AppCompatActivity() {
                 }
 
             })
-    }
-
-    //Menu
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-
-        val item = menu?.findItem(R.id.search_item)
-        val search = item?.actionView as SearchView
-
-        search.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null) {
-                    beerListFragment.updateList(newText)
-                }
-                return false
-            }
-
-        })
-
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        val id = item.itemId
-
-        when(id){
-            R.id.search_item -> {
-                return true
-            }
-            R.id.refresh_item ->{
-                downloadListOfBeers()
-                return true
-            }
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
-        }
     }
 
 }
