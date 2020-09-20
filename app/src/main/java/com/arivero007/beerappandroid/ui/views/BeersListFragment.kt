@@ -55,7 +55,7 @@ class BeersListFragment : Fragment() {
     fun setUpRecyclerView(){
         recyclerView = beers_view
         viewManager = LinearLayoutManager(requireContext())
-        viewAdapter = BeersAdapter(beersModel, requireContext(), beers)
+        viewAdapter = BeersAdapter(beersModel, requireActivity(), beers)
         recyclerView.layoutManager = viewManager
         recyclerView.setHasFixedSize(true)
         recyclerView.setItemViewCacheSize(20);

@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.add
 import com.arivero007.beerappandroid.R
 import com.arivero007.beerappandroid.ui.models.BeersListViewModel
@@ -36,10 +37,19 @@ class BeersListActivity : AppCompatActivity() {
         beerListFragment = BeersListFragment()
         beerFragment = BeerFragment()
 
-        fragmentManager.beginTransaction().add(R.id.main_layout, beerListFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.fragment_container, beerListFragment).commit()
+
         downloadListOfBeers()
 
+    }
 
+    fun showBeerFragment(){
+        fragmentManager.beginTransaction().apply {
+            // Replace whatever is in the fragment_container view with this fragment,
+            // and add the transaction to the back stack so the user can navigate back
+            replace(R.id.fragment_container, beerFragment)
+            addToBackStack(null)
+        }.commit()
     }
 
     //REST
@@ -77,7 +87,9 @@ class BeersListActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                fragmentManager.fragments[0]
+                if (newText != null) {
+                    beerListFragment.updateList(newText)
+                }
                 return false
             }
 
