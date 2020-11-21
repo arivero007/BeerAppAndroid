@@ -2,14 +2,8 @@ package com.arivero007.beerappandroid.ui.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.add
 import com.arivero007.beerappandroid.R
 import com.arivero007.beerappandroid.ui.models.BeersListViewModel
 import com.arivero007.beerappandroid.utils.webservice.Beer
